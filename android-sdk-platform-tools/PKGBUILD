@@ -1,0 +1,26 @@
+# Maintainer: Hai Zhang <dreaming.in.code.zh@gmail.com>
+# Contributor: Vlad M. <vlad@archlinux.net>
+# Contributor: Gordin <9ordin @t gmail dot com>
+# Contributor: Christoph Bayer <chrbayer@criby.de>
+# Contributor: cpasjuste <cpasjuste@gmail.com>
+
+pkgname=android-sdk-platform-tools
+pkgver=33.0.1
+pkgrel=1
+pkgdesc='Platform-Tools for Google Android SDK (adb and fastboot)'
+arch=('x86_64')
+url='http://developer.android.com/sdk/index.html'
+license=('custom')
+#depends=('zlib' 'ncurses')
+provides=('adb' 'android-tools')
+groups=('android-toolchain')
+
+source=("https://dl.google.com/android/repository/platform-tools_r${pkgver}-linux.zip")
+sha256sums=('a339548918c3ab31c4d88416c21cee753bd942040540216c06e640f4b6db3ae2')
+
+package() {
+  install -d "${pkgdir}/opt/pacbrew/android/android-sdk/"
+  cp -a "${srcdir}/platform-tools" "${pkgdir}/opt/pacbrew/android/android-sdk/platform-tools"
+  chmod -R +rX "${pkgdir}/opt/pacbrew/android/android-sdk/platform-tools"
+}
+

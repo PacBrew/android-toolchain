@@ -1,0 +1,28 @@
+# Maintainer: Chih-Hsuan Yen <yan12125@gmail.com>
+# Contributor: Alexander F Rødseth <xyproto@archlinux.org>
+# Contributor: Daniel Micay <danielmicay@gmail.com>
+# Contributor: frownlee <florez.brownlee@gmail.com>
+# Contributor: cpasjuste <cpasjuste@gmail.com>
+
+pkgname=android-ndk
+pkgver=r24
+pkgrel=1
+pkgdesc='Android C/C++ developer kit'
+arch=('x86_64')
+url='https://developer.android.com/ndk/'
+license=('GPL' 'LGPL' 'custom')
+options=('!strip' 'staticlibs')
+groups=('android-toolchain')
+
+source=("https://dl.google.com/android/repository/$pkgname-${pkgver/./}-linux.zip")
+sha256sums=('caac638f060347c9aae994e718ba00bb18413498d8e0ad4e12e1482964032997')
+
+package() {
+  install -Ddm755 "$pkgdir/opt/pacbrew/android"
+  mv "$pkgname-${pkgver/./}" "$pkgdir/opt/pacbrew/android/$pkgname"
+
+  # make sdkmanager and gradle recognize NDK
+  install -Ddm755 "$pkgdir"/opt/pacbrew/android/android-sdk
+  ln -s /opt/pacbrew/android/$pkgname "$pkgdir"/opt/pacbrew/android/android-sdk/ndk-bundle
+}
+

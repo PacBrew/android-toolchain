@@ -1,0 +1,33 @@
+# Maintainer: Hai Zhang <dreaming.in.code.zh@gmail.com>
+# Contributor: Alexander F Rødseth <xyproto@archlinux.org>
+# Contributor: Daniel Micay <danielmicay@gmail.com>
+# Contributor: Gordin <9ordin@gmail.com>
+# Contributor: cpasjuste <cpasjuste@gmail.com>
+
+pkgname=android-sdk
+pkgver=26.1.1
+pkgrel=1
+pkgdesc='Google Android SDK'
+arch=('x86_64')
+url='https://developer.android.com/studio/releases/sdk-tools.html'
+license=('custom')
+groups=('android-toolchain')
+#depends=('java-environment' 'libxtst' 'fontconfig' 'freetype2'
+#                'lib32-gcc-libs' 'lib32-glibc' 'libx11' 'libxext' 'libxrender'
+#                'zlib')
+
+source=('https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip')
+sha256sums=('92ffee5a1d98d856634e8b71132e8a95d96c83a63fde1099be3d86df3106def9')
+
+package() {
+
+  install -d "${pkgdir}/opt/pacbrew/android/${pkgname}/platforms"
+  install -d "${pkgdir}/opt/pacbrew/android/${pkgname}/add-ons"
+
+  cp -a tools "${pkgdir}/opt/pacbrew/android/${pkgname}"
+
+  # Fix broken permissions
+  chmod -R o=g "${pkgdir}/opt/pacbrew/android/${pkgname}"
+  find "${pkgdir}/opt/pacbrew/android/${pkgname}" -perm 744 -exec chmod 755 {} +
+}
+

@@ -1,0 +1,35 @@
+# Maintainer: Gonzalo Exequiel Pedone <hipersayan DOT x AT gmail DOT com>
+# Contributor: cpasjuste <cpasjuste@gmail.com>
+
+pkgname=android-cmake
+pkgver=1
+pkgrel=1
+arch=('any')
+pkgdesc="CMake wrapper for Android (android)"
+depends=('android-environment' 'android-pkg-config')
+license=("custom")
+url="https://cmake.org/"
+groups=('android-toolchain')
+source=("android-cmake.sh" "android.cmake")
+sha256sums=('SKIP' 'SKIP')
+_architectures="aarch64 armv7a-eabi x86 x86-64"
+
+build() {
+  for _arch in ${_architectures}; do
+    source /opt/pacbrew/android/android-env.sh ${_arch}
+    sed "s|@TRIPLE@|${_arch}|g" android-cmake.sh > android-${_arch}-cmake
+    sed "s|@TRIPLE@|${_arch}|g" android.cmake > android-${_arch}.cmake
+  done
+}
+
+package() {
+  for _arch in ${_architectures}; do
+    source /opt/pacbrew/android/android-env.sh ${_arch}
+    install -d ${pkgdir}/opt/pacbrew/android/portlibs/${_arch}/bin
+    install -m 755 android-${_arch}-cmake ${pkgdir}/opt/pacbrew/android/portlibs/${_arch}/bin/android-cmake
+    
+    install -d ${pkgdir}/opt/pacbrew/android/cmake
+    install -m 755 android-${_arch}.cmake ${pkgdir}/opt/pacbrew/android/cmake
+  done
+}
+

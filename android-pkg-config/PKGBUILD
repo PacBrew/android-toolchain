@@ -11,7 +11,7 @@ groups=('android-toolchain')
 source=('pkg-config.in')
 md5sums=('SKIP')
 
-_architectures="aarch64 armv7a-eabi x86 x86-64"
+_architectures="aarch64 armv7a x86 x86-64"
 
 build() {
     for _arch in ${_architectures}; do
@@ -22,7 +22,7 @@ build() {
 package() {
   for _arch in ${_architectures}; do
     install -d ${pkgdir}/opt/pacbrew/android/portlibs/${_arch}/bin
-    install -m755 android-${_arch}-pkg-config ${pkgdir}/opt/pacbrew/android/portlibs/${_arch}/bin/android-pkg-config
+    install -m755 android-${_arch}-pkg-config ${pkgdir}/opt/pacbrew/android/portlibs/${_arch}/bin/${_arch}-linux-android-pkg-config
   done
 }
 

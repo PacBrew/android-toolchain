@@ -12,7 +12,7 @@ url="https://cmake.org/"
 groups=('android-toolchain')
 source=("android-cmake.sh" "android.cmake")
 sha256sums=('SKIP' 'SKIP')
-_architectures="aarch64 armv7a-eabi x86 x86-64"
+_architectures="aarch64 armv7a x86 x86-64"
 
 build() {
   for _arch in ${_architectures}; do

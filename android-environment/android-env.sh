@@ -64,7 +64,7 @@ case "$_android_arch" in
         export ANDROID_TOOLS_COMPILER_PREFIX=${ANDROID_CROSS_PREFIX}/aarch64-linux-android${ANDROID_MINIMUM_PLATFORM}-
         export ANDROID_ABI=arm64-v8a
         ;;
-    armv7a-eabi)
+    armv7a)
         export ANDROID_TOOLS_COMPILER_PREFIX=${ANDROID_CROSS_PREFIX}/armv7a-linux-androideabi${ANDROID_MINIMUM_PLATFORM}-
         export ANDROID_ABI=armeabi-v7a
         ;;
@@ -109,18 +109,29 @@ export OBJCOPY=${ANDROID_OBJCOPY}
 default_android_pp_flags="-I${ANDROID_PREFIX_INCLUDE} -fPIC -D_FORTIFY_SOURCE=2"
 default_android_compiler_flags="-I${ANDROID_PREFIX_INCLUDE} -O2 -fPIC -pipe -fno-plt -fexceptions --param=ssp-buffer-size=4"
 default_android_linker_flags="-L${ANDROID_PREFIX_LIB} -Wl,-O1,--sort-common,--as-needed"
+
+case "$_android_arch" in
+    aarch64)
+        export default_android_pp_flags="${default_android_pp_flags} -march=armv8-a"
+        export default_android_compiler_flags="${default_android_compiler_flags} -march=armv8-a"
+        ;;
+    armv7a)
+        export default_android_pp_flags="${default_android_pp_flags} -march=armv7-a -mfloat-abi=softfp -mfpu=neon"
+        export default_android_compiler_flags="${default_android_compiler_flags} -march=armv7-a -mfloat-abi=softfp -mfpu=neon"
+        ;;
+esac
 export CPPFLAGS="${ANDROID_CPPFLAGS:-$default_android_pp_flags $CPPFLAGS}"
 export CFLAGS="${ANDROID_CFLAGS:-$default_android_compiler_flags $CFLAGS}"
 export CXXFLAGS="${ANDROID_CXXFLAGS:-$default_android_compiler_flags $CXXFLAGS}"
 export LDFLAGS="${ANDROID_LDFLAGS:-$default_android_linker_flags $LDFLAGS}"
 
-export ANDROID_PKGCONFIG=${ANDROID_PREFIX_BIN}/android-pkg-config
-export PKG_CONFIG=${ANDROID_PREFIX_BIN}/android-pkg-config
+export ANDROID_PKGCONFIG=${ANDROID_PREFIX_BIN}/${_android_arch}-linux-android-pkg-config
+export PKG_CONFIG=${ANDROID_PREFIX_BIN}/${_android_arch}-linux-android-pkg-config
 export PKG_CONFIG_LIBDIR=${ANDROID_PREFIX_LIB}/pkgconfig:${ANDROID_PREFIX_SHARE}/pkgconfig
-export PKG_CONFIG_SYSROOT_DIR=
+export PKG_CONFIG_SYSROOT_DIR=${ANDROID_PREFIX}
 
 # paths
-export PATH=$PATH:$ANDROID_CROSS_PREFIX:$ANDROID_PREFIX_BIN:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin
+export PATH=$ANDROID_CROSS_PREFIX:$ANDROID_PREFIX_BIN:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$PATH
 
 ndk_version() {
     grep 'Pkg.Revision' ${ANDROID_NDK_HOME}/source.properties | awk '{print $3}'

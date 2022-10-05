@@ -1,3 +1,5 @@
+# Maintainer: cpasjuste <cpasjuste@gmail.com>
+
 pkgname=android-configure
 pkgver=1
 pkgrel=1
@@ -10,7 +12,7 @@ groups=('android-toolchain')
 source=("android-configure.sh")
 md5sums=('SKIP')
 
-_architectures="aarch64 armv7a-eabi x86 x86-64"
+_architectures="aarch64 armv7a x86 x86-64"
 
 build() {
   for _arch in ${_architectures}; do

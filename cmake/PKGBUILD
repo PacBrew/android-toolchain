@@ -3,7 +3,7 @@
 
 pkgname=android-cmake
 pkgver=1
-pkgrel=1
+pkgrel=2
 arch=('any')
 pkgdesc="CMake wrapper for Android (android)"
 depends=('android-environment' 'android-pkg-config')
@@ -12,13 +12,27 @@ url="https://cmake.org/"
 groups=('android-toolchain')
 source=("android-cmake.sh" "android.cmake")
 sha256sums=('SKIP' 'SKIP')
-_architectures="aarch64 armv7a x86 x86-64"
+_architectures="aarch64 armv7a x86 x86_64"
 
 build() {
   for _arch in ${_architectures}; do
     source /opt/pacbrew/android/android-env.sh ${_arch}
     sed "s|@TRIPLE@|${_arch}|g" android-cmake.sh > android-${_arch}-cmake
     sed "s|@TRIPLE@|${_arch}|g" android.cmake > android-${_arch}.cmake
+    case "${_arch}" in
+        aarch64)
+            sed -i "s|@ABI@|arm64-v8a|g" android-aarch64.cmake
+            ;;
+        armv7a)
+            sed -i "s|@ABI@|armeabi-v7a|g" android-armv7a.cmake
+            ;;
+        x86)
+            sed -i "s|@ABI@|x86|g" android-x86.cmake
+            ;;
+        x86-64)
+            sed -i "s|@ABI@|x86_64|g" android-x86_64.cmake
+            ;;
+    esac
   done
 }
 

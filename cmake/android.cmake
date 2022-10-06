@@ -16,8 +16,9 @@ else ()
     set(ANDROID_PREFIX $ENV{ANDROID_PREFIX})
 endif ()
 
-set(ANDROID_ABI @TRIPLE@)
-set(CMAKE_ANDROID_ARCH_ABI @TRIPLE@)
+set(ANDROID_PLATFORM 24)
+set(ANDROID_ABI "@ABI@")
+set(CMAKE_ANDROID_ARCH_ABI "@ABI@")
 include(${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -36,8 +37,8 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 
-find_program(PKG_CONFIG_EXECUTABLE NAMES android-pkg-config HINTS "${ANDROID_PREFIX}/bin")
+find_program(PKG_CONFIG_EXECUTABLE NAMES @TRIPLE@-linux-android-pkg-config HINTS "${ANDROID_PREFIX}/bin")
 if (NOT PKG_CONFIG_EXECUTABLE)
-    message(WARNING "Could not find android-pkg-config: try installing android-pkg-config")
+    message(WARNING "Could not find @TRIPLE@-linux-android-pkg-config: check your android pacbrew toolchain")
 endif ()
 

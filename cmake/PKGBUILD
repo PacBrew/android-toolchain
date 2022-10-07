@@ -3,7 +3,7 @@
 
 pkgname=android-cmake
 pkgver=1
-pkgrel=2
+pkgrel=3
 arch=('any')
 pkgdesc="CMake wrapper for Android (android)"
 depends=('android-environment' 'android-pkg-config')
@@ -29,7 +29,7 @@ build() {
         x86)
             sed -i "s|@ABI@|x86|g" android-x86.cmake
             ;;
-        x86-64)
+        x86_64)
             sed -i "s|@ABI@|x86_64|g" android-x86_64.cmake
             ;;
     esac

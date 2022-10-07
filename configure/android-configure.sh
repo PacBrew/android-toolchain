@@ -2,8 +2,7 @@
 
 source /opt/pacbrew/android/android-env.sh @TRIPLE@
 
-target=@TRIPLE@
-target=${target/x86-/x86_}-linux-android
+target=@TRIPLE@-linux-android
 
 ./configure \
     --host=${target} \

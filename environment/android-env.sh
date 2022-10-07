@@ -72,15 +72,15 @@ case "$_android_arch" in
         export ANDROID_TOOLS_COMPILER_PREFIX=${ANDROID_CROSS_PREFIX}/i686-linux-android${ANDROID_MINIMUM_PLATFORM}-
         export ANDROID_ABI=x86
         ;;
-    x86-64)
+    x86_64)
         export ANDROID_TOOLS_COMPILER_PREFIX=${ANDROID_CROSS_PREFIX}/x86_64-linux-android${ANDROID_MINIMUM_PLATFORM}-
         export ANDROID_ABI=x86_64
         ;;
 esac
 
-export ANDROID_TOOLS_PREFIX=${ANDROID_CROSS_PREFIX}/llvm-
 export ANDROID_CC=${ANDROID_TOOLS_COMPILER_PREFIX}clang
 export ANDROID_CXX=${ANDROID_TOOLS_COMPILER_PREFIX}clang++
+export ANDROID_TOOLS_PREFIX=${ANDROID_CROSS_PREFIX}/llvm-
 export ANDROID_AR=${ANDROID_TOOLS_PREFIX}ar
 export ANDROID_AS=${ANDROID_TOOLS_PREFIX}as
 export ANDROID_NM=${ANDROID_TOOLS_PREFIX}nm
@@ -118,6 +118,10 @@ case "$_android_arch" in
     armv7a)
         export default_android_pp_flags="${default_android_pp_flags} -march=armv7-a -mfloat-abi=softfp -mfpu=neon"
         export default_android_compiler_flags="${default_android_compiler_flags} -march=armv7-a -mfloat-abi=softfp -mfpu=neon"
+        ;;
+    x86_64)
+        export default_android_pp_flags="${default_android_pp_flags} -march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=x86-64"
+        export default_android_compiler_flags="${default_android_compiler_flags} -march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=x86-64"
         ;;
 esac
 export CPPFLAGS="${ANDROID_CPPFLAGS:-$default_android_pp_flags $CPPFLAGS}"

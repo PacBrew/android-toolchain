@@ -116,8 +116,8 @@ case "$_android_arch" in
         export default_android_compiler_flags="${default_android_compiler_flags} -march=armv8-a"
         ;;
     armv7a)
-        export default_android_pp_flags="${default_android_pp_flags} -march=armv7-a -mfloat-abi=softfp -mfpu=neon"
-        export default_android_compiler_flags="${default_android_compiler_flags} -march=armv7-a -mfloat-abi=softfp -mfpu=neon"
+        export default_android_pp_flags="${default_android_pp_flags} -mtune=cortex-a9 -march=armv7-a -mfpu=neon -mfloat-abi=softfp"
+        export default_android_compiler_flags="${default_android_compiler_flags} -mtune=cortex-a9 -march=armv7-a -mfpu=neon -mfloat-abi=softfp"
         ;;
     x86_64)
         export default_android_pp_flags="${default_android_pp_flags} -march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=x86-64"
